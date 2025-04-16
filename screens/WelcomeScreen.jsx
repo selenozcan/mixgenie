@@ -28,6 +28,8 @@ export default function WelcomeScreen({ navigation }) {
   };
 
   const [messageIndex, setMessageIndex] = useState(0);
+  const [genieY, setGenieY] = useState(0);
+
   const opacityAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -59,12 +61,22 @@ export default function WelcomeScreen({ navigation }) {
       end={{ x: 1, y: 1 }}
       style={styles.container}
     >
-      <Animated.View style={[styles.chatBubble, { opacity: opacityAnim }]}>
+      <Animated.View
+        style={[styles.chatBubble, { opacity: opacityAnim, top: genieY - 40 }]}
+      >
         <Text style={styles.chatText}>{chatMessages[messageIndex]}</Text>
         <View style={styles.tail} />
       </Animated.View>
 
-      <Image source={MixGenie} style={styles.image} resizeMode="contain" />
+      <Image
+        source={MixGenie}
+        style={styles.image}
+        resizeMode="contain"
+        onLayout={(e) => {
+          const y = e.nativeEvent.layout.y;
+          setGenieY(y);
+        }}
+      />
 
       <Text style={styles.title}>Welcome to MixGenie!</Text>
       <Text style={styles.subtitle}>Let’s mix something magical</Text>
@@ -85,8 +97,8 @@ const styles = StyleSheet.create({
   },
   chatBubble: {
     position: "absolute",
-    top: height * 0.22,
-    left: width * 0.20,
+    left: width * 0.2,
+    zIndex: 1,
     backgroundColor: "#fff",
     borderRadius: 15,
     padding: 10,
@@ -143,5 +155,6 @@ const styles = StyleSheet.create({
     color: "white",
     fontFamily: fonts.bold,
     fontSize: 16,
+    lineHeight: 20, 
   },
 });

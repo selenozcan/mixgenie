@@ -19,6 +19,9 @@ export const spiritOptions = [
   { label: "Sambuca", icon: "🌌" },
   { label: "Amaretto", icon: "🍬" },
   { label: "Liqueur", icon: "🍾" },
+  { label: "Prosecco", icon: "🥂" },
+  { label: "Red Wine", icon: "🍷" },
+  { label: "Blue Curaçao", icon: "🔵" },
 ];
 
 export const extraOptions = [
@@ -43,10 +46,11 @@ export const extraOptions = [
   { label: "Lemon", icon: "🍋" },
   { label: "Raspberry", icon: "❤️‍🔥" },
   { label: "Rosemary", icon: "🌾" },
-  { label: "Cardamom", icon: "🌰" },
-  { label: "Clove", icon: "🧉" },
   { label: "Chili", icon: "🌶️" },
-  { label: "Agave Syrup", icon: "🧃" },
   { label: "Salt", icon: "🧂" },
   { label: "Brown Sugar", icon: "🍮" },
+  { label: "Soda Water", icon: "💧" },
+  { label: "Ice Cream", icon: "🍦" }, 
+  { label: "Milk", icon: "🥛" },
+  { label: "Egg White", icon: "🥚" },
 ];

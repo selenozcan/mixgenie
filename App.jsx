@@ -1,9 +1,9 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-import Toast from 'react-native-toast-message';
+import Toast from "react-native-toast-message";
 import { toastConfig } from "./configs/toastConfig";
 
 import WelcomeScreen from "./screens/WelcomeScreen";
@@ -13,11 +13,15 @@ const Stack = createNativeStackNavigator();
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
-  const [fontsLoaded] = useFonts({
+  const [fontsLoaded, fontError] = useFonts({
     "Poppins-Regular": require("./assets/fonts/Poppins-Regular.ttf"),
     "Poppins-Bold": require("./assets/fonts/Poppins-Bold.ttf"),
     "Poppins-Italic": require("./assets/fonts/Poppins-Italic.ttf"),
   });
+
+  useEffect(() => {
+    if (fontError) console.error("Font loading error:", fontError);
+  }, [fontError]);
 
   const onReady = useCallback(async () => {
     if (fontsLoaded) {
@@ -38,7 +42,7 @@ export default function App() {
           <Stack.Screen name="MainApp" component={MainApp} />
         </Stack.Navigator>
       </NavigationContainer>
-      <Toast config={toastConfig}/>
+      <Toast config={toastConfig} />
     </>
   );
 }

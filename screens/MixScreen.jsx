@@ -14,7 +14,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Toast from "react-native-toast-message";
 import "react-native-get-random-values";
-import { v4 as uuidv4 } from "uuid";
+import uuid from "react-native-uuid";
 
 import IngredientSelector from "../components/IngredientSelector";
 import TasteSelector from "../components/TasteSelector";
@@ -57,12 +57,12 @@ export default function MixScreen() {
     const response = await fetchCocktailFromGroq({ taste, spirits, extras });
 
     if (response) {
-      setCocktail({ ...response, id: uuidv4() });
+      setCocktail({ ...response, id: uuid.v4() });
     } else {
       Toast.show({
         type: "error",
         text1: "Oops!",
-        text2: "AI couldn't mix your drink 🥲",
+        text2: "Genie couldn't mix your drink 🥲",
         position: "bottom",
       });
     }
@@ -141,7 +141,6 @@ export default function MixScreen() {
 
 const styles = StyleSheet.create({
   safeArea: {
-    paddingTop: Platform.OS === "android" ? 50 : 0,
     flex: 1,
     backgroundColor: colors.background,
   },

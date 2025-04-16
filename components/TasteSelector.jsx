@@ -78,6 +78,7 @@ const styles = StyleSheet.create({
     fontFamily: fonts.regular,
     color: colors.textDark,
     fontSize: 14,
+    lineHeight: 20, 
   },
   optionTextSelected: {
     fontFamily: fonts.bold,

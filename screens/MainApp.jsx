@@ -1,4 +1,5 @@
 import React from 'react';
+import { PlatformPressable } from '@react-navigation/elements';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import MixScreen from './MixScreen';
@@ -21,6 +22,12 @@ export default function MainApp() {
           elevation: 8,
           height: 70,
         },
+        tabBarButton: (props) => (
+          <PlatformPressable
+            {...props}
+            android_ripple={{ color: 'transparent' }}  
+          />
+        ),
         tabBarIcon: ({ focused, color }) => {
           let iconName;
           if (route.name === 'Mix') {

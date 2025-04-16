@@ -41,33 +41,31 @@ export async function fetchCocktailFromGroq({ taste, spirits, extras }) {
   const isAllEmpty =
     !taste?.length && spirits.length === 0 && extras.length === 0;
 
-  const systemPrompt = `You are a creative and fun bartender AI who only responds with a random JSON-formatted cocktail recipe.`;
+  const systemPrompt = `You are a creative and fun bartender AI who ONLY responds with a fresh, random cocktail recipe in valid JSON.`;
 
-  let prompt = "";
+  const prompt = isAllEmpty
+    ? `
+      Generate a random cocktail recipe.
+      Make sure each result is different. Avoid repeating names or descriptions.
+      Use playful ingredients or presentation ideas if you'd like! But keep it simple.
 
-  if (isAllEmpty) {
-    prompt = `
-      Create a brand new, original cocktail recipe. Each time the user asks, return something different. 
-      Come up with a random fun name and a unique recipe. Include a variety of spirits, flavors, or playful elements.
-
-      Respond ONLY with JSON in this format:
+      Format (JSON only):
       {
         "name": "...",
         "ingredients": ["...", "..."],
         "steps": "...",
         "aiDescription": "..."
       }
-    `;
-  } else {
-    prompt = `
-      Create a unique cocktail recipe based on the user's choices.
+    `
+    : `
+      Based on the following preferences, create a fun and unique cocktail:
 
       Taste: ${taste?.length ? taste.join(", ") : "No preference"}
-      Spirits: ${spirits.length ? spirits.join(", ") : "None (non-alcoholic)"}
+      Spirits: ${spirits.length ? spirits.join(", ") : "None"}
       Extras: ${extras.length ? extras.join(", ") : "No preference"}
 
-      Come up with a random fun name and a unique recipe
-      Respond ONLY with JSON in this format:
+      Each output should be unique and fun to read.
+      Respond with JSON only:
       {
         "name": "...",
         "ingredients": ["...", "..."],
@@ -75,7 +73,6 @@ export async function fetchCocktailFromGroq({ taste, spirits, extras }) {
         "aiDescription": "..."
       }
     `;
-  }
 
   const response = await fetch(
     "https://api.groq.com/openai/v1/chat/completions",
@@ -100,7 +97,5 @@ export async function fetchCocktailFromGroq({ taste, spirits, extras }) {
   console.log("🧾 Raw Groq response:", JSON.stringify(data, null, 2));
 
   const content = data.choices?.[0]?.message?.content;
-  const cocktail = tryFixAndParseJson(content);
-
-  return cocktail;
+  return tryFixAndParseJson(content);
 }

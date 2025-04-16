@@ -105,5 +105,6 @@ const styles = StyleSheet.create({
   favText: {
     color: "#fff",
     fontFamily: fonts.bold,
+    lineHeight: 20,
   },
 });
