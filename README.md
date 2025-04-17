@@ -8,7 +8,7 @@
 
 Powered by  **Groq** , MixGenie blends creativity and speed to suggest new and fun drinks in real-time.
 
-Demo link to download to your device: [link here](https://expo.dev/accounts/eulaussa/projects/MixGenie/builds/61f551cd-e4d9-474d-a55f-6cc903de4799.com "download")
+Demo link to download to your device: [link here](https://expo.dev/accounts/eulaussa/projects/MixGenie/builds/61f551cd-e4d9-474d-a55f-6cc903de4799 "download")
 
 ## ✨ Features
 
