@@ -1,5 +1,11 @@
-import React from "react";
-import { View, Pressable, Text, StyleSheet, Dimensions } from "react-native";
+import React, { useRef } from "react";
+import {
+  View,
+  Pressable,
+  Text,
+  StyleSheet,
+  Animated,
+} from "react-native";
 import { colors, fonts } from "../styles/theme";
 
 export default function OptionGrid({ data, selected, onChange }) {
@@ -16,21 +22,47 @@ export default function OptionGrid({ data, selected, onChange }) {
     <View style={styles.container}>
       {data.map((item, index) => {
         const isSelected = selected.includes(item.label);
+        const scaleAnim = useRef(new Animated.Value(1)).current;
+
+        const onPressIn = () => {
+          Animated.spring(scaleAnim, {
+            toValue: 0.96,
+            useNativeDriver: true,
+          }).start();
+        };
+
+        const onPressOut = () => {
+          Animated.spring(scaleAnim, {
+            toValue: 1,
+            friction: 3,
+            useNativeDriver: true,
+          }).start();
+        };
+
         return (
-          <Pressable
+          <Animated.View
             key={index}
-            onPress={() => toggle(item)}
-            style={[styles.option, isSelected && styles.optionSelected]}
+            style={{ transform: [{ scale: scaleAnim }], width: "48%" }}
           >
-            <Text
+            <Pressable
+              onPressIn={onPressIn}
+              onPressOut={onPressOut}
+              onPress={() => toggle(item)}
               style={[
-                styles.optionText,
-                isSelected && styles.optionTextSelected,
+                styles.option,
+                isSelected && styles.optionSelected,
               ]}
             >
-              {item.icon} {item.label}
-            </Text>
-          </Pressable>
+              <Text
+                style={[
+                  styles.optionText,
+                  isSelected && styles.optionTextSelected,
+                ]}
+              >
+                {item.icon} {item.label}
+              </Text>
+            </Pressable>
+          </Animated.View>
         );
       })}
     </View>
@@ -46,7 +78,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   option: {
-    width: "48%",
     backgroundColor: "#eee",
     borderRadius: 20,
     paddingHorizontal: 16,
@@ -60,7 +91,7 @@ const styles = StyleSheet.create({
     fontFamily: fonts.regular,
     color: colors.textDark,
     fontSize: 15,
-    lineHeight: 20, 
+    lineHeight: 20,
   },
   optionTextSelected: {
     fontFamily: fonts.bold,

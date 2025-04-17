@@ -18,7 +18,7 @@ export const toastConfig = {
       text2Style={{
         fontFamily: fonts.regular,
         color: colors.textDark,
-        fontSize: 13,
+        fontSize: 14,
       }}
     />
   ),

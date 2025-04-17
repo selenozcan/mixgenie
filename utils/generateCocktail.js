@@ -1,18 +1,18 @@
-function tryFixAndParseJson(rawContent) {
+export function tryFixAndParseJson(rawContent) {
   if (!rawContent) return null;
 
   try {
     let fixed = rawContent
       .trim()
-      .replace(/^```json|```$/gim, "")
-      .replace(/\\n/g, " ")
-      .replace(/\n/g, " ")
-      .replace(/\t/g, " ")
-      .replace(/\s{2,}/g, " ")
-      .replace(/'([^']*)'/g, `"$1"`)
-      .replace(/"([^"]+)'/g, `"$1"`)
-      .replace(/,\s*}/g, "}")
-      .replace(/,\s*]/g, "]");
+      .replace(/^```json|```$/gi, "") // remove ```json and ending ```
+      .replace(/^```|```$/gi, "") // remove ``` if not followed by json
+      .replace(/\\n/g, " ") // remove escaped newlines
+      .replace(/\n/g, " ") // remove real newlines
+      .replace(/\t/g, " ") // remove tabs
+      .replace(/\s{2,}/g, " ") // reduce multiple spaces
+      .replace(/'([^']*)'/g, `"$1"`) // replace single quotes with double
+      .replace(/,\s*}/g, "}") // trailing comma in object
+      .replace(/,\s*]/g, "]"); // trailing comma in array
 
     const firstCurly = fixed.indexOf("{");
     const lastCurly = fixed.lastIndexOf("}");
@@ -20,8 +20,8 @@ function tryFixAndParseJson(rawContent) {
     if (firstCurly === -1 || lastCurly === -1) return null;
 
     const jsonLike = fixed.substring(firstCurly, lastCurly + 1);
-
     const parsed = JSON.parse(jsonLike);
+
     if (
       parsed?.aiDescription &&
       typeof parsed.aiDescription === "string" &&
@@ -37,7 +37,7 @@ function tryFixAndParseJson(rawContent) {
   }
 }
 
-export async function fetchCocktailFromGroq({ taste, spirits, extras }) {
+export async function fetchCocktailFromAi({ taste, spirits, extras }) {
   const isAllEmpty =
     !taste?.length && spirits.length === 0 && extras.length === 0;
 
@@ -48,6 +48,7 @@ export async function fetchCocktailFromGroq({ taste, spirits, extras }) {
       Generate a random cocktail recipe.
       Make sure each result is different. Avoid repeating names or descriptions.
       Use playful ingredients or presentation ideas if you'd like! But keep it simple.
+      Units: metric (ml, g, etc.)
 
       Format (JSON only):
       {

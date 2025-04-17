@@ -1,5 +1,5 @@
-import React from "react";
-import { View, Text, Pressable, StyleSheet } from "react-native";
+import React, { useRef } from "react";
+import { View, Text, Pressable, StyleSheet, Animated } from "react-native";
 import { colors, fonts } from "../styles/theme";
 
 const tasteOptions = [
@@ -25,21 +25,45 @@ export default function TasteSelector({ selected = [], onSelect }) {
       <View style={styles.optionsContainer}>
         {tasteOptions.map((option) => {
           const isSelected = selected.includes(option.label);
+          const scaleAnim = useRef(new Animated.Value(1)).current;
+
+          const onPressIn = () =>
+            Animated.spring(scaleAnim, {
+              toValue: 0.95,
+              useNativeDriver: true,
+            }).start();
+
+          const onPressOut = () =>
+            Animated.spring(scaleAnim, {
+              toValue: 1,
+              friction: 3,
+              useNativeDriver: true,
+            }).start();
+
           return (
-            <Pressable
+            <Animated.View
               key={option.label}
-              onPress={() => toggleTaste(option.label)}
-              style={[styles.option, isSelected && styles.optionSelected]}
+              style={{ transform: [{ scale: scaleAnim }] }}
             >
-              <Text
+              <Pressable
+                onPressIn={onPressIn}
+                onPressOut={onPressOut}
+                onPress={() => toggleTaste(option.label)}
                 style={[
-                  styles.optionText,
-                  isSelected && styles.optionTextSelected,
+                  styles.option,
+                  isSelected && styles.optionSelected,
                 ]}
               >
-                {option.emoji} {option.label}
-              </Text>
-            </Pressable>
+                <Text
+                  style={[
+                    styles.optionText,
+                    isSelected && styles.optionTextSelected,
+                  ]}
+                >
+                  {option.emoji} {option.label}
+                </Text>
+              </Pressable>
+            </Animated.View>
           );
         })}
       </View>
@@ -78,7 +102,7 @@ const styles = StyleSheet.create({
     fontFamily: fonts.regular,
     color: colors.textDark,
     fontSize: 14,
-    lineHeight: 20, 
+    lineHeight: 20,
   },
   optionTextSelected: {
     fontFamily: fonts.bold,

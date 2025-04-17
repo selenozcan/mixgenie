@@ -21,7 +21,7 @@ import TasteSelector from "../components/TasteSelector";
 import AIResponseBox from "../components/AIResponseBox";
 import LoadingAnimation from "../components/LoadingAnimation";
 import { colors, fonts } from "../styles/theme";
-import { fetchCocktailFromGroq } from "../utils/generateCocktail";
+import { fetchCocktailFromAi } from "../utils/generateCocktail";
 
 export default function MixScreen() {
   const [spirits, setSpirits] = useState([]);
@@ -54,7 +54,7 @@ export default function MixScreen() {
       scrollRef.current?.scrollTo({ y: outputY, animated: true });
     }, 100);
 
-    const response = await fetchCocktailFromGroq({ taste, spirits, extras });
+    const response = await fetchCocktailFromAi({ taste, spirits, extras });
 
     if (response) {
       setCocktail({ ...response, id: uuid.v4() });
@@ -142,6 +142,7 @@ export default function MixScreen() {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
+    paddingTop: Platform.OS === "android" ? 40 : 0,
     backgroundColor: colors.background,
   },
   container: {
