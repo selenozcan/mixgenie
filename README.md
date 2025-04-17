@@ -1,7 +1,7 @@
 # 🍸 MixGenie
 
 <div align="center">
-  <img src="assets/images/mixgenie3.png" alt="MixGenie App Screenshot" width="280"/>
+  <img src="assets/images/mixgenie3.png" alt="MixGenie App" width="280"/>
 </div>
 
 **MixGenie** is a playful mobile app that helps you discover unique, AI-generated cocktail recipes based on your taste and ingredient preferences.
@@ -63,3 +63,9 @@ npx expo start
 You can preview with QR code via Expo Go.
 
 ## 📱 Screenshots
+<div align="left">
+  <img src="screenshots/screenshot1.png" alt="MixGenie App Screenshot 1" width="280"/>
+  <img src="screenshots/screenshot2.png" alt="MixGenie App Screenshot 2" width="280"/>
+  <img src="screenshots/screenshot3.png" alt="MixGenie App Screenshot 3" width="280"/>
+  <img src="screenshots/screenshot4.png" alt="MixGenie App Screenshot 4" width="280"/>
+</div>
